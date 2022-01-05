@@ -1,4 +1,4 @@
-from brownie import Lottery, MockV3Aggregator
+from brownie import Lottery, MockV3Aggregator, config
 from scripts.utils import get_account, is_dev, network
 from scripts.mocks import deploy_mocks
 

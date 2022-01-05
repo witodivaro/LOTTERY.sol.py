@@ -1,8 +1,8 @@
-from scripts.deploy import deploy_lottery
+from brownie import Lottery
 from scripts.utils import get_account
 
 def run_lottery():
-    lottery = deploy_lottery()
+    lottery = Lottery[-1]
 
     admin = get_account(0)
     participant1 = get_account(1)

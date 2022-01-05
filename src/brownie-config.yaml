@@ -1,3 +1,5 @@
+dotenv: .env
+
 dependencies:
   - smartcontractkit/chainlink-brownie-contracts@0.3.0
 
@@ -11,5 +13,8 @@ networks:
     eth_usd_price_feed: "0x8A753747A1Fa494EC906cE90E9f37563A8AF630e"
 
 accounts:
-  account_0: 0x29BB88a558af48962753d2acb029A5a932535684
-  account_1: 0xF430C7cff29a08f98A8590b9adD3BFaE7287858B
+  account_0: 0x5ee3c600216891a857996279afe20bf4169e5370137b309f84e6f02a67081793
+  account_1: 0x7225e41c7aefdfebd0734e99b537ecc32339415f2a79cdc754991cc67559266c
+  account_2: 0xd876f6c6f4b1c67c60a13bd63ca5f210ac59e8d922514cc1413862fe89357e12
+  account_3: 0xbaa7d2aa9bba9b633ad299e5f483af845e6513d2a9aacf2a7bad12f3cd5a7983
+  account_4: 0xd3a60eb0d7fb03ea4fda026bd03bf16e2d5eafadf24790a8424579ad5d343448

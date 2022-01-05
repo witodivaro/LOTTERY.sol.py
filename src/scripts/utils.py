@@ -8,6 +8,6 @@ def is_dev():
 def get_account(index):
     if (is_dev()):
         return accounts[index]
-    account_name = 'account_' + index
+    account_name = 'account_' + str(index)
     
-    return accounts.add(config["accounts"]["account_name"])
+    return accounts.add(config["accounts"][account_name])
