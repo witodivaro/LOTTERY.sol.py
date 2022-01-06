@@ -6,7 +6,7 @@ def deploy_lottery():
     account = get_account(0)
     
     current_network = network.show_active();
-    if (current_network == 'development'):
+    if (is_dev()):
         print('Deploying mocks..')
         deploy_mocks()
         print('Deployed mocks!')
@@ -16,6 +16,7 @@ def deploy_lottery():
     
     print('Deploying lottery..')
     lottery = Lottery.deploy(eth_usd_address, { "from": account })
+    print(eth_usd_address)
     print('Deployed lottery!')
     
     return lottery;

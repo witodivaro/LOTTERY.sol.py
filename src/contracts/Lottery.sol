@@ -10,7 +10,7 @@ contract Lottery is PriceOracle, Randomizer {
     address public owner;
     address public lastWinner;
 
-    uint256 requiredUsdValue = 50;
+    uint256 requiredUsdValue;
     uint256 requiredWeiValue;
     uint256 public lotteryBalance;
 
@@ -18,23 +18,20 @@ contract Lottery is PriceOracle, Randomizer {
     uint256 public ownersFeePercentage = 250;
     uint256 public ownersFeeDecimals = 2;
 
-    bool isLocked = true;
+    bool public isLocked = true;
 
     mapping(address => bool) public isEnteredByAddress;
     mapping(address => bool) isAdminByAddress;
+    mapping(address => uint256) public balanceByAddress;
 
     constructor(address _ethUsdPriceFeed) PriceOracle(_ethUsdPriceFeed) {
         owner = msg.sender;
-        requiredWeiValue = convertUsdToWei(0, requiredUsdValue);
         isAdminByAddress[owner] = true;
     }
 
     modifier onlyWhenUnlocked() {
-        if (isLocked) {
-            revert("The contract is locked");
-        } else {
-            _;
-        }
+        require(!isLocked, "The contract is locked");
+        _;
     }
 
     modifier withRequiredUsdValue(uint256 minUsdValue) {
@@ -57,6 +54,14 @@ contract Lottery is PriceOracle, Randomizer {
         _;
     }
 
+    function withdraw() external {
+        uint256 amountToSend = balanceByAddress[msg.sender];
+
+        balanceByAddress[msg.sender] = 0;
+
+        payable(msg.sender).transfer(amountToSend);
+    }
+
     function enter()
         public
         payable
@@ -75,9 +80,9 @@ contract Lottery is PriceOracle, Randomizer {
         sendChange(requiredWeiValue);
     }
 
-    function getEntranceFee() public view returns (uint256) {
+    function getEntranceFee() public view onlyWhenUnlocked returns (uint256) {
         uint256 weiEntranceFee = convertUsdToWei(0, requiredUsdValue);
-        return weiEntranceFee;
+        return requiredWeiValue;
     }
 
     function sendChange(uint256 requiredValue) internal {
@@ -86,7 +91,9 @@ contract Lottery is PriceOracle, Randomizer {
         returnAddress.transfer(change);
     }
 
-    function startLottery() public adminOnly {
+    function startLottery(uint256 _requiredUsdValue) public adminOnly {
+        requiredUsdValue = _requiredUsdValue;
+        requiredWeiValue = convertUsdToWei(0, requiredUsdValue);
         isLocked = false;
     }
 
@@ -114,11 +121,12 @@ contract Lottery is PriceOracle, Randomizer {
         }
 
         delete players;
+
         lotteryBalance = 0;
         lastWinner = winner;
+        balanceByAddress[winner] += amountToSend;
 
         payable(owner).transfer(ownersFee);
-        winner.transfer(amountToSend);
     }
 
     function getContractBalance() public view returns (uint256) {
