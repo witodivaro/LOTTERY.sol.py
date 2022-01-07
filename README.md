@@ -47,6 +47,7 @@ Please <b>DO NOT</b> use this lottery code in PRODUCTION. The `Randomizer.sol` c
 <ol>
   <li>Make sure you have brownie, ganache-cli & python packages installed</li>
   <li>List your network in <code>brownie-config.yaml</code> under the <code>networks</code> field and add the respective ETH/USD Price Feed address. Use this <a href="https://docs.chain.link/docs/ethereum-addresses/">data feeds</a> list to find your network feed</li>
+  <li>Specify the <code>WEB3_INFURA_PROJECT_ID</code> in the <code>.env</code> file to connect to the test network using Infura. Alternatevily you can use any HTTP blockchain connection provider you want, please check how to connect the desired provider in brownie documentation.</code>
   <li>Make sure the 5 <b>private keys</b> specified in <code>brownie-config.yaml</code> under <code>accounts/account_[index]</code> fields are linked to the accounts that have enough ETH (>= 0.1) on a wanted network. You can fund your accounts using public faucets like the <a href="https://faucets.chain.link/rinkeby">Rinkeby faucet</a>
   <li>Run <code>brownie compile</code> to compile the contract and check if the solidity code has no syntax errors</li>
   <li>Run <code>brownie run scripts/deploy.py --network={YOUR_NETWORK}</code> to deploy the contract to your test network</li>
